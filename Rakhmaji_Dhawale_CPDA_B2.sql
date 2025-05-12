@@ -11,7 +11,7 @@
 -- Question Template: Display following columns flight_id, flight_no, departure_delay_minutes
 
 SELECT flight_id, flight_no,((actual_departure - scheduled_departure)/60) AS departure_delay_minutes
-FRPOM flights
+FROM flights
 WHERE actual_departure > scheduled_departure;
 
 -- Question 2 (Marks: 3)
