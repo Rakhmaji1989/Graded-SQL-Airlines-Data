@@ -10,9 +10,9 @@
 -- Calculate the Delay in Departures for Delayed Flights
 -- Question Template: Display following columns flight_id, flight_no, departure_delay_minutes
 
-select flight_id, flight_no,((actual_departure - scheduled_departure)/60) as departure_delay_minutes
-from flights
-where actual_departure > scheduled_departure;
+SELECT flight_id, flight_no,((actual_departure - scheduled_departure)/60) AS departure_delay_minutes
+FRPOM flights
+WHERE actual_departure > scheduled_departure;
 
 -- Question 2 (Marks: 3)
 -- Objective: Show how frequently each aircraft is used by counting the number of flights operated by each aircraft.
@@ -48,7 +48,12 @@ group by flight_id;
 -- Determine Occupancy per Aircraft
 -- Question Template: Display following columns flight_id, flight_no, aircraft_code, total_seats, occupied_seats, occupancy_rate_percentage
 
--- Write your SQL solution here
+-- select f.flight_id, f.flight_no, f.aircraft_code,
+count(s.seat_no) as total_seats, count(bp.seat_no) as occupied_seats, (count(bp.seat_no) * 100.0 / count(s.seat_no)) as occupancy_rate_percentage
+from flights as f
+join seats as s on f.aircraft_code = s.aircraft_code
+left join boarding_passes as bp on f.flight_id = bp.flight_id and s.seat_no = bp.seat_no
+group by f.flight_id, f.flight_no, f.aircraft_code;
 
 -- Question 6 (Marks: 3)
 -- Objective: Identify the three flights that generated the highest revenue based on ticket sales.
@@ -67,10 +72,10 @@ limit 3;
 -- Average Flight Duration by Aircraft Model
 -- Question Template: Display following columns model, avg_duration_minutes
 
-select a.model, avg((actual_arrival - actual_departure)/60) as avg_duration_minutes
-from flights as f join aircrafts as a
-on f.aircraft_code = a.aircraft_code
-group by a.aircraft_code;
+SELECT a.model, avg((actual_arrival - actual_departure)/60) as avg_duration_minutes
+FROM flights AS f JOIN aircrafts AS a
+ON f.aircraft_code = a.aircraft_code
+GROUP BY a.aircraft_code;
 
 -- Question 8 (Marks: 3)
 -- Objective: Count how many flights depart from each airport to assess airport activity levels.
